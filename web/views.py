@@ -4,11 +4,11 @@ from .forms import NewUserForm
 from django.contrib.auth import login
 from django.contrib import messages
 
-
- 
-
 def inicio(request):
-    return render(request, 'web/inicio.html', {})
+	if(request.user.is_authenticated):
+		return render(request, 'web/actividades.html', {})
+	
+	return render(request, 'web/index.html', {})
 
 
 def register_request(request):
