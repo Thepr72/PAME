@@ -1,0 +1,79 @@
+{% extends 'web/base.html'%}
+{% load static %}
+{% block tittle %}Actividades{% endblock %}
+    
+    {% block content %}
+    <center><h2 style="font-size: 410%;"><tittle>Actividades</tittle></h2></center>
+    <div style="Position:absolute; right:1px; top:150px;" ><a href="{% url 'inicio' %}"><button class="button button2">Inicio</button></a></div>
+    <div style="Position:absolute; left:1px; top:150px;" ><a href="{% url 'ejercicios' %}"><button class="button button2">Ejercicios</button></a></div>
+    <br><br><br>
+
+        <div class="actividad-header">Eje: Analisis de datos</div>
+    
+<hr>
+
+    <center><div class="actividad2-header"><P>Tema: Estadistica</p></div></center>
+ <center><div class="actividad-container"> 
+    <p>Aprendizaje esperado:<BR> 
+        Usa e interpreta las medidas de tendencia central  (moda,media aritmetica)<br>
+        y mediana) y el rango de un conjuntop de datos y decide cual de ellas conviene mas en el analisis de los datos en cuestion</p>
+</div></center>
+    <br>
+   <div class="actividad3-header">CONTENIDO</div> 
+    <br>
+
+    <div class="actividad4-header"><p>7.3.10 Obtiene e interpreta media aritmetica de un conjunto de datos.</p></div>
+    <br>
+    <p>La media aritmetica es el valor obtenido al sumar todos los datos y dividir el resultado entre el <br>
+        numero total de dato</p>
+    <br>
+    <p>Ejemplo:</p>
+    
+    <p> El peso de seis personas es: 73, 63, 82, 91, 87,66 y 94 kg <br><br>
+        Encuentra el peso promedio.<br><br>
+        73 + 63 + 82 + 91 + 87 + 66 + 94      se suman todos los valores <br><br>
+        556	   y el resultado de la suma lo dividimos entre el número de valores sumados en este caso 7 <br><br>
+        1# 73   2# 63    3# 82    4# 91    5# 87    6# 66    7# 94<br><br>
+        1# 73   2# 63    3# 82    4# 91    5# 87    6# 66    7# 94<br><br>
+        556     = 79.42 kg           y el resultado de la división es el promedio.<br>
+         7
+     </p>
+
+     <p>Eje: Forma, espacio y medida
+        Tema: Magnitudes y medidas
+        Aprendizaje Esperado: Calcula el volumen de prismas rectos cuya base sea un triángulo o un cuadrilátero, desarrollando y aplicando fórmulas.
+        CONTENIDO
+        7.3.8 Calcula el volumen de prismas rectos cuya base sea un triángulo o un cuadrilátero desarrollando y aplicando fórmulas.
+        Ejemplo:
+        La fórmula para el volumen de un prisma es V = Bh, donde B es el área de la base y h es la altura.
+        La base del prisma es un rectángulo. La longitud del rectángulo es de 9 cm y el ancho es de 7 cm.
+        El área A de un rectángulo con longitud l y ancho w es A = lw .
+        Así, el área de la base es 9\times;7 o 63 cm 2.
+        La altura del prisma es de 13 cm.
+        Sustituya 63 por B y 13 por h en V = Bh.
+        V = (63)(13)
+        Multiplique.
+        V = 819
+        Por lo tanto, el volumen del prisma es de 819 centímetros cúbicos.
+         </p>
+        <p>
+            Recordemos que el área de cualquier triángulo es calculada al multiplicar a un medio de la longitud de la base por la longitud de la altura. Entonces, podemos usar la siguiente fórmula para calcular el volumen de un prisma triangular:
+            en donde,
+
+            •	b es la longitud de la base del triángulo
+            •	a es la longitud de la altura del triángulo
+            •	h es la longitud de la altura del prisma
+            Un prisma tiene una altura de 5 m y su base triangular tiene una altura de 3 m y una base de 4 m. ¿Cuál es su volumen?
+            Solución
+            Tenemos las siguientes longitudes:
+            Altura de prisma, h=5
+            Altura de triángulo, a=3
+            Base de triángulo, b=4
+            Usando a estos valores en la fórmula del volumen, tenemos:
+            V=1/2 bah
+            V=1/2 (4)(3)(5)
+            V=30                                 El volumen es 30 m³.
+
+        </p>
+
+    {% endblock %}

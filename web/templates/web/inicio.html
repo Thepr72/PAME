@@ -1,0 +1,52 @@
+{% extends 'web/base.html'%}
+{% load static  %}
+  {%block content%}
+    <body>
+      <script>
+        function miFuncionQuienes(){
+            var quienes = document.getElementById("miVar2");
+            if(quienes.innerHTML === ' '){
+              quienes.innerHTML = "Somos un equipo de trabajo universitario que busca apoyar el conocimiento a los alumnos para que las futuras generiaciones tengan un mayor interés en el ámbito academico";
+            }else{
+              quienes.innerHTML = " ";
+            }
+        }
+        function miFuncionOrigen(){
+            var origen = document.getElementById("miVar3");
+            if(origen.innerHTML === ' '){
+              origen.innerHTML = "Creado por alumnos de ingieneria en computación<br>del Centro Universitario UTEG, Campus Olimpica<br>Blvd. Gral. Marcelino García Barragán 1610,<br>Atlas. 4478 Gudalajara, Jal.";
+            }else{
+              origen.innerHTML = " ";
+            }
+        }
+      </script>
+      <div style="position: absolute; left:405px; top:160px;"><img src= "{% static '/logo.jpeg' %}" alt="Se más" style="width:47%;"></div>
+      <!--<h2><div style="Position:absolute; left:41pc; top:8pc; font-size:205%; font-family:myriadpro;">Bienvenidos</div></h2>-->
+      <div style="position: absolute; left:0pc; top:1px;"><a href="https://www.uteg.edu.mx";><img src= "{% static '/UTEG-P-01.png' %}" alt="Se más" style="width:15%;"></a></div>
+        <div style="Position:absolute; right:35pc; top:560px;"><button class="button button3" onclick="miFuncionQuienes()">¿Quienes somos?</button>
+          <div style="Position:absolute; font-family:'Times New Roman', Times, serif; color:white;" id="miVar2"> </div>
+        </div>
+        
+        <div style="Position:absolute; left:61pc; top:1pc;"><a href="{% url 'register' %}"><button Class="button button2" >Registrarse</button></a></div>     
+        {% if user.is_authenticated %}
+          <div style="Position:absolute; right:18pc; top:23pc"><a href="{% url 'actividades' %}"><button class="button button3">ENTRAR</button></a></div>
+          {% else %}
+            <div style="Position:absolute; left:13pc; top:23pc;"><a href="{% url 'login' %}"><button class="button button2">Log-in</button></a></div>
+        {% endif %}
+        <div style="Position:absolute; left:48pc; top:480px;"><button class="button button3" onclick="miFuncionOrigen()">Creadores:</button></div>
+        <div style="Position:absolute; left:48pc; top:560px; font-family: 'Times New Roman', Times, serif; color:white" id="miVar3"> </div>
+      
+        <div style="Position:absolute; right:5px; top:599px; font-family: 'Times New Roman', Times, serif; color:white; "><strong>Autores:</strong><p>Jimenez Santos Carlos<br>Perez Salazar Santiago<br>Flores Almaraz Joshua.</p></div>
+
+       <div id="DIV4" style="Position:absolute; left:2pc; top:325px;" ><h2><a><img src= "{% static '/raizmini.png' %}" alt="Se más" style="width:157%;"></a></h2></div>
+       <div id="DIV5" style="Position:absolute; right:9pc; top:415px;"><h2><a><img src= "{% static '/infinito.png' %}" alt="Se más" style="width:137%;"></a></h2></div>
+       <div id="DIV6" style="Position:absolute; right:6pc; top:295px;"><h2><a><img src= "{% static '/raiz.png' %}" alt="Se más" style="width:130%;"></a></h2></div>
+       <div id="DIV7" style="Position:absolute; right:72pc; top:590px;"><h2><a><img src= "{% static '/funcion.png' %}" alt="Se más" style="width:137%;"></a></h2></div>
+       <div id="DIV8" style="Position:absolute; left:21pc; top:150px;"><h2><a><img src= "{% static '/division.png' %}" alt="Se más" style="width:100%;"></a></h2></div>
+       <div id="DIV9" style="Position:absolute; left:19pc; top:580px;"><h2><a><img src= "{% static '/notacion.png' %}" alt="Se más" style="width:85%;"></a></h2></div>
+       <div id="DIV10" style="Position:absolute; left:0pc; top:9pc;"><h2><a><img src= "{% static '/Formula.png' %}" alt="Se más" style="width:100%;"></a></h2></div>
+       <div id="DIV3" style="Position:absolute; left:805px; top:130px;" ><h2><a><img src= "{% static '/E.png' %}" alt="Se más" style="width:137%;"></h2></a></div>
+        <div id="myDIV"></div> 
+    </body>
+
+  {%endblock%}

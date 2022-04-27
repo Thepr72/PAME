@@ -1,0 +1,17 @@
+
+{% extends 'web/base.html'%}
+{% block content %}
+
+<!--Register-->
+<div class="container py-5">
+    <h1><center>Registro</center></h1>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+        {{ register_form}}
+        <button  Class="button button2">Register</button>
+    </form>
+    <p class="text-center">Si ya tienes una cuenta, <a href="{% url 'login' %}">Login</a> intenta.</p>
+</div>
+
+{% endblock %}

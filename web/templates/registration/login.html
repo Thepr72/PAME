@@ -1,0 +1,15 @@
+{% extends 'web/base.html'%}
+{% load static  %}
+{% block tittle %}Login{% endblock %}
+
+{% block content %}
+<center>
+    <h2>Log-in</h2>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+      <button Class="button button2">Login</button>
+    </form>
+  </center>
+{% endblock %}
