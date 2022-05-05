@@ -1,6 +1,8 @@
 import imp
+import json
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_list_or_404
-from .forms import NewUserForm
+from .forms import RegisterForm
 from django.contrib.auth import login
 from django.contrib import messages
 
@@ -13,14 +15,19 @@ def inicio(request):
 
 def register_request(request):
 	if request.method == "POST":
-		form = NewUserForm(request.POST)
+		print(request.POST)
+		form = RegisterForm(request.POST)
+		print(form)
 		if form.is_valid():
+			print("Form valid")
 			user = form.save()
 			login(request, user)
 			messages.success(request, "Registration successful." )
-			return redirect("inicio.html")
+			return HttpResponseRedirect("/")
 		messages.error(request, "Unsuccessful registration. Invalid information.")
-	form = NewUserForm()
+		print(form.data)
+		return JsonResponse(data=form.cleaned_data, status=500, safe=False)
+	form = RegisterForm()
 	return render(request=request, template_name="registration/register.html", context={"register_form":form})
 
 def actividades(request):
@@ -28,3 +35,6 @@ def actividades(request):
 
 def ejercicios(request):
 	return render(request, 'web/ejercicios.html',{})
+
+def success(request):
+	return render(request, "registration/success.html")

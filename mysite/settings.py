@@ -40,7 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'web.apps.WebConfig',
     'authentication.apps.AuthenticationConfig',
+    'cursos.apps.CursosConfig',
+    'tareas.apps.TareasConfig',
+    'corsheaders',
+    'crispy_forms'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

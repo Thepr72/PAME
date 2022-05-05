@@ -1,1 +1,6 @@
-Django~=3.2.10
+django
+django-cors-headers
+psycopg2-binary
+PyJWT
+python-http-client
+pytz
