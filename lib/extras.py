@@ -12,6 +12,8 @@ from random import shuffle
 import json
 import jwt
 
+from lib.responses import *
+
 
 JWT_KEY = "ftpetIyX4B0FklTtzFM44Ix5oTmbvcNKw7eWQiFYbZD3SNDtX6"
 TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -130,11 +132,11 @@ class MainClass(View):
         if self.files_required is not None and not all(file in request.FILES for file in self.files_required):
             return JsonResponse(MISSING_FILE, status=422)
 
-        user = self.get_user(request)
-        if isinstance(user, JsonResponse):
-            return user
-        print(user)
-        return super().dispatch(request, data=data, user=user, *args, **kwargs)
+        # user = self.get_user(request)
+        # if isinstance(user, JsonResponse):
+        #     return user
+        # print(user)
+        return super().dispatch(request, data=data, *args, **kwargs)
 
 
 def extract_data(request):

@@ -38,3 +38,18 @@ def ejercicios(request):
 
 def success(request):
 	return render(request, "registration/success.html")
+
+def cursos(request):
+	return render(request, 'web/cursos.html', {})
+
+def curso(request):
+	return render(request, 'web/curso.html', {})
+
+def cursosAlumno(request):
+	return render(request, 'web/cursosAlumno.html', {})
+
+def cursoAlumno(request):
+	return render(request, 'web/cursoAlumno.html', {})
+
+def tareaAlumno(request):
+	return render(request, 'web/tareaAlumno.html', {})

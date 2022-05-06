@@ -1,0 +1,61 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block tittle %}Cursos{% endblock %}
+{% block content %}
+    <div class="modal fade"
+         id="exampleModalCenter"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Crear Curso</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#exampleModalCenter').modal('toggle')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+					<form>
+						<div class="form-group">
+						  <label for="formGroupExampleInput">Nombre</label>
+						  <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre" data-bind="textInput: cursoName">
+						</div>
+						<div class="form-group">
+						  <label for="formGroupExampleInput2">Descripcion</label>
+						  <textarea rows="12" type="text" class="form-control" id="formGroupExampleInput2" placeholder="Descripcion" data-bind="textInput: cursoDescription"></textarea>
+						</div>
+					  </form>
+				</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bind="click: addCurso">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <link href="{% static '/css/cursos/main.css' %}"
+          rel="stylesheet"
+          type="text/css"></link>
+    <section class="page-section bg-light">
+        <div class="main-container">
+            <div data-bind="foreach: cursos" class="curso-container max-width">
+                <div class="card">
+                    <div class="card-header card-element">
+                        Profesor:&nbsp;
+                        <div data-bind="text: professor.name"></div>
+                    </div>
+                    <div class="card-body card-element" data-bind="text: name">Content</div>
+                    <div class="card-footer card-element">
+                        <button type="button" class="btn btn-primary" data-bind="click: $parent.openCourse">Abrir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="floating-container">
+        <div class="floating-button"
+             onclick="$('#exampleModalCenter').modal('toggle')">+</div>
+    </div>
+    <script src={% static '/js/cursos/main.js' %}></script>
+{% endblock %}
