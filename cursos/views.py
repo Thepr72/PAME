@@ -14,7 +14,6 @@ utc = pytz.UTC
 
 
 class NewCourse(MainClass):
-    login_required = True
     data_required = True
     fields_required = (
         'name',
@@ -65,11 +64,12 @@ class NewCourse(MainClass):
 
 
 class GetAllAvailableCourses(MainClass):
-    login_required = True
+
+    login_required = False
 
     def get(self, request, *args, **kwargs):
         try:
-            courses = Course.objects.filter(active=True)
+            courses = Course.objects.filter(activate=True)
 
         except Course.DoesNotExist:
             return JsonResponse(NO_ACTIVE_COURSES)
@@ -83,12 +83,10 @@ class GetAllAvailableCourses(MainClass):
                     'professor': {
                         'name': course.professor.all()[0].get_full_name()
                     },
-                    'start': course.start,
-                    'end': course.end,
                     'password': True if course.password is not None else False,
                     'password_str': course.password
                 }
-                for course in courses if course.end >= datetime.now().date()
+                for course in courses
             ]
         except Exception as e:
             print(e)

@@ -4,6 +4,7 @@ from django.db.utils import IntegrityError
 from django.http import JsonResponse
 
 from cursos.models import Course
+from lib.extras import MainClass
 
 
 User = get_user_model()
@@ -91,7 +92,7 @@ class Login(MainClass):
             return JsonResponse(SERVER_ERROR, status=500)
 
 
-class getProfile(MainClass):
+class GetProfile(MainClass):
     login_required = True
 
     def get(self, request, user, *args, **kwargs):

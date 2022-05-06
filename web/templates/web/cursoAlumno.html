@@ -1,0 +1,73 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block tittle %}Cursos{% endblock %}
+{% block content %}
+    <link href="{% static '/css/cursos/main.css' %}"
+          rel="stylesheet"
+          type="text/css"></link>
+    <div class="modal fade"
+         id="exampleModalCenter"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Crear Actividad</h5>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                            onclick="$('#exampleModalCenter').modal('toggle')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Nombre</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="formGroupExampleInput"
+                                   placeholder="Nombre"
+								   data-bind="textInput: postTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Descripcion</label>
+                            <textarea rows="12"
+                                      type="text"
+                                      class="form-control"
+                                      id="formGroupExampleInput2"
+                                      placeholder="Descripcion"
+									  data-bind="textInput: postDescription"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bind="click: createPost">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="page-section bg-light">
+        <div class="main-container display-flex">
+            <h1 data-bind="text: title"></h1>
+            <h3 data-bind="text: 'Profesor: ' + professor()"></h3>
+            <h4 data-bind="text: description"/>
+        </div>
+        <div class="main-container container-box">
+            <div class="list-group" data-bind="foreach: posts" >
+                <a data-bind="click: $parent.loadHomework"
+                   class="list-group-hover list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" data-bind="text: title">List group item heading</h5>
+                        <small data-bind="text: dateCreated">3 days ago</small>
+                    </div>
+                    <p class="mb-1 text-limit" data-bind="text: description"></p>
+                </a>
+            </div>
+        </div>
+    </section>
+    <script src={% static '/js/cursos/curso.js' %}></script>
+{% endblock %}

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'cursos.apps.CursosConfig',
     'tareas.apps.TareasConfig',
     'corsheaders',
-    'crispy_forms'
+    'crispy_forms',
+    'fontawesomefree'
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap'
