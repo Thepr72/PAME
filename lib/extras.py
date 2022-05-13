@@ -398,14 +398,14 @@ def delete_homework(home_id):
     return ALL_OK
 
 
-def generate_token(request, email):
+def generate_token(request, username):
     now = datetime.now()
 
     expiration = now + timedelta(weeks=26)
 
     payload = {
         "id": request.session.session_key,
-        "email": email,
+        "username": username,
         'generation': str(now),
         'expiration': str(expiration),
     }

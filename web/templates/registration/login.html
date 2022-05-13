@@ -1,15 +1,18 @@
-{% extends 'web/base.html'%}
-{% load static  %}
-{% block tittle %}Login{% endblock %}
-
+{% extends 'web/base.html' %}
+{% block tittle %} Login {% endblock %}
 {% block content %}
-<center>
-    <h2>Log-in</h2>
-    <hr>
-    <form method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-      <button Class="button button2">Login</button>
-    </form>
-  </center>
+<br>
+<br>
+<br>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<h2>Log In</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Log In</button>
+  
+</form>
 {% endblock %}

@@ -45,6 +45,23 @@ class RegisterForm(forms.ModelForm):
             user.save()
         return user
 
+class Numform(forms.ModelForm):
+    num = forms.CharField(widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        num = cleaned_data.get("num")
+        if num is not None and num != num:
+            self.add_error("num", "Tiene que ser el mismo numero mostrado")
+            return cleaned_data
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["num"])
+        if commit:
+            user.save()
+        return user
+
 
 # class UserAdminCreationForm(forms.ModelForm):
 #     """

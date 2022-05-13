@@ -7,6 +7,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
+
 urlpatterns = [
     path('', views.inicio, name='inicio'),
     re_path(r'^login/$', auth_views.LoginView.as_view(), name='login'),
@@ -21,6 +22,10 @@ urlpatterns = [
     path("cursosAlumno", views.cursosAlumno, name="cursosAlumno"),
     path("cursoAlumno", views.cursoAlumno, name="cursoAlumno"),
     path("tareaAlumno", views.tareaAlumno, name="tareaAlumno"),
+    path("loginRedirect", views.login_request, name='login_request'),
+    path('numero', views.numero, name='numero'),
+    path('appCode', views.codigo, name="codigo"),
+   
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -1,0 +1,15 @@
+{% extends 'web/base.html' %}
+{% block tittle %} Login {% endblock %}
+{% block content %}
+<section>
+<h1>Utiliza la app y el teclado para activar la cuenta</h1>
+<form method="POST">
+    {% csrf_token %}
+<label for="num">Numero de Aplicacion </label>
+<input type="text" id="num" name="num" required
+       minlength="4" maxlength="8" size="10">
+<button type="submit" class="button button2" > Guardar</button>
+</form>
+
+</section>
+{% endblock %}

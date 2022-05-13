@@ -1,10 +1,18 @@
+from codecs import EncodedFile
+from lib2to3.pgen2 import token
+from tokenize import Token
+from urllib import response
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.handlers.modwsgi import check_password
 from django.db.utils import IntegrityError
 from django.http import JsonResponse
 
 from cursos.models import Course
-from lib.extras import MainClass
+from lib.extras import MainClass, generate_token
+from lib.responses import *
+
+
+
 
 
 User = get_user_model()
@@ -66,7 +74,8 @@ class Login(MainClass):
     content_type = 'application/json'
     fields_required = (
         'username',
-        'password'
+        'password',
+        
     )
 
     def post(self, request, data, *args, **kwargs):
@@ -74,22 +83,34 @@ class Login(MainClass):
             user = authenticate(
                 request=request,
                 username=data['username'],
-                password=data['password']
+                password=data['password'],
+                
             )
-
+           
+            
+            
             if user is not None:
                 login(request, user)
 
                 if not request.session.exists(request.session.session_key):
                     request.session.create()
+            
+            response = {
+                **ALL_OK,
+                "token": generate_token(request, data['username']),
+                
+            }
+            
+            return JsonResponse(response)    
 
-               
-
-
-            return JsonResponse(INVALID_CREDENTIALS, status=403)
+    
+          
         except Exception as e:
             print(e)
             return JsonResponse(SERVER_ERROR, status=500)
+
+          
+   
 
 
 class GetProfile(MainClass):
@@ -197,3 +218,5 @@ class Logout(MainClass):
             return JsonResponse(SERVER_ERROR, status=500)
 
         return JsonResponse(ALL_OK)
+
+
