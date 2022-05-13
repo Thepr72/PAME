@@ -1,11 +1,14 @@
-function uuidv4() {
-	return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-		(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-	);
-}
+function getCookie(name) {
+	const value = `; ${document.cookie}`;
+	const parts = value.split(`; ${name}=`);
+	if (parts.length === 2) return parts.pop().split(';').shift();
+  }
 
 function CursosViewModel() {
 	this.cursos = ko.observableArray([]);
+	this.loading = ko.observable(true);
+	this.canCreate = ko.observable(false);
+	this.empty = ko.observable(true);
 
 	this.cursos.subscribe((val) => {
 		console.log(val)
@@ -33,29 +36,47 @@ function CursosViewModel() {
 	}
 
 	this.addCurso = function () {
-		this.cursos.push({
-			"id": uuidv4(),
-			"name": this.cursoName(),
-			"description": this.cursoDescription(),
-			"professor": {
-				"name": "Profesor Demo"
-			},
-			"posts": [],
-			"password": false
-		});
+		
+		const payload = {
+			'name': this.cursoName(),
+			'description': this.cursoDescription()
+		}
 
-		$('#exampleModalCenter').modal('toggle');
-		this.cursoName("");
-		this.cursoDescription("");
-		localStorage.setItem("cursos", JSON.stringify(this.cursos()));
-		location.reload();
+		axios.post('api/cursos/new/', payload, {
+			headers: {
+				'Authorization': 'Bearer ' + getCookie('token')
+			}
+		}).then(response => {
+			$('#exampleModalCenter').modal('toggle');
+			this.cursoName("");
+			this.cursoDescription("");
+			localStorage.setItem("cursos", JSON.stringify(this.cursos()));
+			location.reload();
+		}).catch(error => {
+			console.error(error);
+		});
 	}
 
 	$(document).ready(() => {
-		console.log('here')
-		const tempCursos = JSON.parse(localStorage.getItem('cursos'));
-		this.cursos(tempCursos == null ? [] : tempCursos);
+		axios.get('api/cursos/get/all', {
+			headers: {
+				'Authorization': 'Bearer ' + getCookie('token')
+			}
+		})
+		.then(response => {
+			console.log("test")
+			this.loading(false);
+			this.cursos(response.data.courses);
+			this.canCreate(getCookie("type") == 1 ? true : false);
+			this.empty(response.data.courses.length == 0 ? true : false);
+		})
+		.catch(error => {
+			this.loading(true);
+			console.error(error);
+			this.canCreate(false);
+		});
 	})
+
 }
 
 ko.applyBindings(new CursosViewModel());

@@ -39,6 +39,9 @@
           type="text/css"></link>
     <section class="page-section bg-light">
         <div class="main-container">
+            <div data-bind="if: empty">
+                <h1>Todavia no hay cursos, por favor vuelve mas tarde
+            </div>
             <div data-bind="foreach: cursos" class="curso-container max-width">
                 <div class="card">
                     <div class="card-header card-element">
@@ -53,7 +56,7 @@
             </div>
         </div>
     </section>
-    <div class="floating-container">
+    <div data-bind="if: canCreate" class="floating-container">
         <div class="floating-button"
              onclick="$('#exampleModalCenter').modal('toggle')">+</div>
     </div>

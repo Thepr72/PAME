@@ -56,6 +56,20 @@
             <h3 data-bind="text: 'Profesor: ' + professor()"></h3>
             <h4 data-bind="text: description"/>
         </div>
+        {%if user.type != 1%}
+        <div class="main-container container-box">
+            <div class="list-group" data-bind="foreach: posts" >
+                <a data-bind="click: $parent.loadHomework"
+                   class="list-group-hover list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" data-bind="text: title">List group item heading</h5>
+                        <small data-bind="text: dateCreated">3 days ago</small>
+                    </div>
+                    <p class="mb-1 text-limit" data-bind="text: description"></p>
+                </a>
+            </div>
+        </div>
+        {%else%}
         <div class="main-container container-box">
             <div class="list-group" data-bind="foreach: posts" >
                 <a href="#"
@@ -68,10 +82,18 @@
                 </a>
             </div>
         </div>
+        {%endif%}
     </section>
+    {%if user.is_authenticated and user.type == 1%}
     <div class="floating-container">
         <div class="floating-button"
              onclick="$('#exampleModalCenter').modal('toggle')">+</div>
     </div>
+    {%else%}
+    <div data-bind="ifnot: enrolled" class="floating-container">
+        <div class="floating-button"
+             onclick="$('#exampleModalCenter').modal('toggle')"><i class="fa-solid fa-bookmark"></i></div>
+    </div>
+    {%endif%}
     <script src={% static '/js/cursos/curso.js' %}></script>
 {% endblock %}

@@ -14,38 +14,19 @@ utc = pytz.UTC
 
 
 class NewCourse(MainClass):
+    login_required = True
     data_required = True
     fields_required = (
         'name',
-        'start',
-        'end',
+        'description',
     )
 
     def post(self, request, user, data, *args, **kwargs):
-        if user.profile_type == 3:
+        print(user)
+        if user.type == 3:
             return JsonResponse(FORBIDDEN, status=403)
 
         try:
-            start = datetime.strptime(data['start'], '%Y-%m-%d').date()
-            end = datetime.strptime(data['end'], '%Y-%m-%d').date()
-            now = datetime.now().date() - timedelta(days=1)
-
-            if start < now:
-                print("Start")
-                return JsonResponse(TIME_TRAVEL, status=400)
-
-            if end < now:
-                print("end")
-                return JsonResponse(TIME_TRAVEL, status=400)
-
-            if start > end:
-                print("start > end")
-                return JsonResponse(TIME_TRAVEL, status=400)
-
-            if start == end:
-                print("start == end")
-                return JsonResponse(TIME_TRAVEL, status=400)
-
             course = Course.objects.create(**data)
             course.professor.add(user)
         except Exception as e:
@@ -65,7 +46,7 @@ class NewCourse(MainClass):
 
 class GetAllAvailableCourses(MainClass):
 
-    login_required = False
+    login_required = True
 
     def get(self, request, *args, **kwargs):
         try:
@@ -178,21 +159,15 @@ class GetCourseDetails(MainClass):
                 'professor': {
                     'name': course.professor.all()[0].get_full_name()
                 },
-                'start': course.start,
-                'end': course.end,
-                'active': course.active,
-                'students': [
+                'description': course.description,
+                'posts': [
                     {
-                        'name': student.get_full_name()
+                        'id': posts.id,
+                        'title': posts.title,
+                        'description': posts.content,
+                        'dateCreated': posts.timestamp
                     }
-                    for student in course.students.all()
-                ],
-                'homework': [
-                    {
-                        'title': homework.title,
-                        'limit': homework.limit
-                    }
-                    for homework in course.homework.all()
+                    for posts in course.post.all()
                 ],
                 'owner': True if user == course.professor.all()[0] else False,
                 'has_password': True if course.password is not None else False,
@@ -308,50 +283,33 @@ class StudentEnroll(MainClass):
 class NewPost(MainClass):
     login_required = True
     data_required = True
-    body = 'request'
     fields_required = (
         'course',
         'title',
-        'content',
-        'type'
+        'content'
     )
 
     def post(self, request,  user, data, *args, **kwargs):
         try:
             print(request)
-            if user.profile_type == 3:
+            if user.type == 3:
                 return JsonResponse(FORBIDDEN, status=403)
-            if data['type'] == None:
-                return JsonResponse(NEEDED_POST_TYPE, status=400)
-
-            file = None
-
-            if 'file' in request.FILES:
-                file = request.FILES.get('file')
 
             course = Course.objects.get(
                 Q(id=data['course']) & Q(professor=user)
             )
+            homework = Homework.objects.create(
+                title=data['title'],
+                description=data['content'],
+                limit=datetime.now() + timedelta(days=365),
+            )
+            post = Post.objects.create(
+                homework=homework,
+                title=data['title'],
+                content=data['content'],
+            )
 
-            if data['type'] == '0':
-                post = Post.objects.create(
-                    title=data['title'],
-                    content=data['content'],
-                    file=file,
-                    ptype=data['type']
-                )
-            else:
-                homework = Homework.objects.create(
-                    title=data['title'],
-                    description=data['content'],
-                    limit=data['limit']
-                )
-                post = Post.objects.create(
-                    ptype=data['type'],
-                    homework=homework,
-                    title=data['title']
-                )
-            course.posts.add(post)
+            course.post.add(post)
             course.save()
 
             response = {
@@ -378,66 +336,33 @@ class GetPost(MainClass):
 
             print(type(post.title))
 
-            if post.ptype == 0:
-                response = {
-                    **ALL_OK,
-                    'title': post.title,
-                    'content': post.content,
-                    'type': post.ptype,
-                    'timestamp': post.timestamp,
-                    'file': None if not post.file else post.file.url
+           
+            try:
+                r = post.homework.response.filter(student__id=user.id)[0]
+                print(r)
+                re = {
+                    'id': r.id,
+                    'graded': True if r.grade is not None else False,
+                    'grade': r.grade,
+                    'student': {
+                        'name': r.student.get_full_name()
+                    },
+                    'answer': r.answer
                 }
-            else:
-                if user.profile_type != 2:
-                    try:
-                        r = post.homework.response.get(student=user)
-                        re = {
-                            'id': r.id,
-                            'file': r.file.url,
-                            'graded': True if r.grade is not None else False,
-                            'grade': r.grade,
-                            'student': {
-                                'name': r.student.get_full_name()
-                            }
-                        }
-                    except Exception as e:
-                        re = {}
-                        print(e)
+            except Exception as e:
+                re = {}
+                print(e)
 
-                    response = {
-                        **ALL_OK,
-                        'title': post.homework.title,
-                        'content': post.homework.description,
-                        'type': post.ptype,
-                        'timestamp': post.timestamp,
-                        'file': None if not post.homework.file else post.homework.file.url,
-                        'id': post.homework.id,
-                        'response': {
-                            **re
-                        }
-                    }
-                else:
-                    response = {
-                        **ALL_OK,
-                        'title': post.homework.title,
-                        'content': post.homework.description,
-                        'type': post.ptype,
-                        'timestamp': post.timestamp,
-                        'file': None if not post.homework.file else post.homework.file.url,
-                        'id': post.homework.id,
-                        'response': [
-                            {
-                                'id': r.id,
-                                'student': {
-                                    'name': r.student.get_full_name()
-                                },
-                                'file': r.file.url,
-                                'graded': True if r.grade is not None else False,
-                                'grade': r.grade
-                            }
-                            for r in post.homework.response.all()
-                        ]
-                    }
+            response = {
+                **ALL_OK,
+                'title': post.homework.title,
+                'description': post.homework.description,
+                'dateCreated': post.timestamp,
+                'id': post.homework.id,
+                'response': {
+                    **re
+                }
+            }
 
             print(response)
 

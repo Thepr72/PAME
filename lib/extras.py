@@ -110,7 +110,9 @@ class MainClass(View):
         session = request.session._get_session()
 
         try:
-            user = User.objects.get(email=credentials['email'])
+            user = User.objects.get(username=credentials['username'])
+            print(f'User object: {user}')
+            print(f'Credentials: {credentials}')
         except User.DoesNotExist as e:
             print(e)
             return JsonResponse(INVALID_CREDENTIALS, status=403)
@@ -132,11 +134,11 @@ class MainClass(View):
         if self.files_required is not None and not all(file in request.FILES for file in self.files_required):
             return JsonResponse(MISSING_FILE, status=422)
 
-        # user = self.get_user(request)
-        # if isinstance(user, JsonResponse):
-        #     return user
-        # print(user)
-        return super().dispatch(request, data=data, *args, **kwargs)
+        user = self.get_user(request)
+        if isinstance(user, JsonResponse):
+            return user
+        print(user)
+        return super().dispatch(request, data=data, user=user, *args, **kwargs)
 
 
 def extract_data(request):
@@ -410,4 +412,8 @@ def generate_token(request, username):
         'expiration': str(expiration),
     }
 
-    return jwt.encode(payload, JWT_KEY, algorithm='HS256').decode('utf-8')
+    try:
+        return jwt.encode(payload, JWT_KEY, algorithm='HS256').decode('utf-8')
+    except Exception as e:
+        print(e)
+        return jwt.encode(payload, JWT_KEY, algorithm='HS256')

@@ -237,11 +237,9 @@ class DeleteHomework(MainClass):
         return JsonResponse(ALL_OK)
 
 class UploadResponse(MainClass):
-    body = 'request'
     login_required = True
     data_required = True
-    content_type = 'multipart/form-data'
-    fiedls_required = (
+    fields_required = (
         'homework',
         'answer'
     )
@@ -258,13 +256,10 @@ class UploadResponse(MainClass):
                 'sent': True
             }
 
-            r['file'] = None
-
-            if 'file' in request.FILES:
-                r['file'] = request.FILES.get('file')
-
             homework = Homework.objects.get(id=data['homework'])
+            print(f'homwrokg: {homework}')
             response = Response.objects.create(**r)
+            print(response)
             homework.response.add(response)
 
         except Homework.DoesNotExist:
@@ -279,7 +274,6 @@ class UploadResponse(MainClass):
             'response': {
                 'id': response.id,
                 **data,
-                'file': None if r['file'] is None else r['file'].name
             }
         }
 

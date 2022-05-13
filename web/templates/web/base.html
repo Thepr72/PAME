@@ -39,6 +39,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js" integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
         <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     </head>
     <header class ="page-header">
@@ -51,7 +52,6 @@
                 </a>
             </div>
         {% endif %}
-        <hr> 
     </header>
     <body id="page-top">
          {% if  user.is_authenticated %}
@@ -64,7 +64,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="#acercaDe">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
                             <li class="nav-item"><a class="nav-link" href="/cursos">Cursos</a></li>
                             <li class="nav-item"><a class="nav-link" href="/logout">Cerrar Sesion</a></li>
                         </ul>
