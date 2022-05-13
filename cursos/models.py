@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from authentication.models import User
 from tareas.models import Homework
@@ -42,7 +43,9 @@ class Course(models.Model):
     homework = models.ManyToManyField(
         Homework, related_name="course")
     post = models.ManyToManyField(Post, related_name="course")
-
+    description = models.TextField(null=True)
+    created = models.DateField(auto_now_add=True)
+    
 
     def __str__(self):
         return self.name
