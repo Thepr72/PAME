@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'tareas.apps.TareasConfig',
     'corsheaders',
     'crispy_forms',
+    'crispy_bootstrap5',
     'fontawesomefree',
     
 ]
@@ -143,3 +144,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "/loginRedirect"
 
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
